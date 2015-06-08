@@ -40,6 +40,28 @@ class Py3status:
                 }
         return output
 
+class Traffic:
+    def __init__(self):
+        self.TRAFFIC_URL = "https://atlantis.wh2.tu-dresden.de/traffic/getMyTraffic.php"
+    
+    def get(self):
+        response
+
+        try:
+            response = requests.get(self.TRAFFIC_URL).json()
+        except:
+            print("Error")
+
+        if response.get("version") == 0:
+
+
+class ResponseError(Exception):
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return repr(self.value)
+
 if __name__ == "__main__":
     status = Py3status()
 
