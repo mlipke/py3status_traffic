@@ -8,6 +8,7 @@ statusbar
 
 Configuration parameters:
     - cache_timeout : refresh intervall in seconds
+    - traffic_url : where to get the traffic data (expects json)
 
 @author Matthes Lipke matthes.lipke@gmail.com
 @license BSD
@@ -28,7 +29,7 @@ class Py3status:
         pass
 
     def on_click(self, i3s_output_list, i3s_config, event):
-        pass
+        return self.traffic(i3s_output_list, i3s_config)
 
     def traffic(self, i3s_output_list, i3s_config):
         t = Traffic(self.traffic_url)
@@ -36,7 +37,7 @@ class Py3status:
         try:
             t.get()
         except Exception as e:
-            t = str(e)
+            t = "0.000 MiB"
 
         output = {
                 "cached_until": time.time() + self.cache_timeout,
