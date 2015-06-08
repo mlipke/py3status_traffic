@@ -19,6 +19,7 @@ import requests
 class Py3status:
     # available configuration parameters
     cache_timeout = 120
+    traffic_url = "https://atlantis.wh2.tu-dresden.de/traffic/getMyTraffic.php"
 
     def __init__(self):
         pass
@@ -30,7 +31,7 @@ class Py3status:
         pass
     
     def traffic(self, i3s_output_list, i3s_config):
-        response = requests.get("https://atlantis.wh2.tu-dresden.de/traffic/getMyTraffic.php").json()
+        response = requests.get(traffic_url).json()
         total = response.get("traffic").get("in") + response.get("traffic").get("out")
         num, dec = str(total).split(".")
         traffic = num + "." + dec[0:3] + " MiB"
@@ -52,8 +53,8 @@ class Traffic:
         except:
             print("Error")
 
-        if response.get("version") == 0:
-
+        if response.get("version") == 2:
+            return response.get("")
 
 class ResponseError(Exception):
     def __init__(self, value):
