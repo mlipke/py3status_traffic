@@ -29,32 +29,41 @@ class Py3status:
 
     def on_click(self, i3s_output_list, i3s_config, event):
         pass
-    
+
     def traffic(self, i3s_output_list, i3s_config):
-        response = requests.get(traffic_url).json()
-        total = response.get("traffic").get("in") + response.get("traffic").get("out")
-        num, dec = str(total).split(".")
-        traffic = num + "." + dec[0:3] + " MiB"
+        t = Traffic(self.traffic_url)
+
+        try:
+            t.get()
+        except Exception as e:
+            t = str(e)
+
         output = {
                 "cached_until": time.time() + self.cache_timeout,
-                "full_text": traffic
+                "full_text": str(t)
                 }
         return output
 
 class Traffic:
-    def __init__(self):
-        self.TRAFFIC_URL = "https://atlantis.wh2.tu-dresden.de/traffic/getMyTraffic.php"
+    def __init__(self, url):
+        self.TRAFFIC_URL = url
     
     def get(self):
-        response
-
-        try:
-            response = requests.get(self.TRAFFIC_URL).json()
-        except:
-            print("Error")
+        response = requests.get(self.TRAFFIC_URL).json()
 
         if response.get("version") == 2:
-            return response.get("")
+            upload = response.get("traffic").get("out")
+            download = response.get("traffic").get("in")
+            
+            self.traffic = upload + download
+        elif response.get("version") == 0:
+            raise ResponseError("Not connected to an AG DSN network")
+        else:
+            raise ResponseError("Check your internet connection")
+
+    def __str__(self):
+        num, dec = str(self.traffic).split(".")
+        return num + "." + dec[0:3] + " MiB"
 
 class ResponseError(Exception):
     def __init__(self, value):
