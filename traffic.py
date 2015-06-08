@@ -1,47 +1,15 @@
 # -*- coding: utf-8 -*-
 
-# This is an example module to be used as a template.
-# See https://github.com/ultrabug/py3status/wiki/Write-your-own-modules
-# for more details.
-#
-# NOTE: py3status will NOT execute:
-#     - methods starting with '_'
-#     - methods decorated by @property and @staticmethod
-#
-# NOTE: reserved method names:
-#     - 'kill' method for py3status exit notification
-#     - 'on_click' method for click events from i3bar (read below please)
-#
-# WARNING:
-#
-# Do NOT use print on your modules: py3status will catch any output and discard
-# it silently because this would break your i3bar (see issue #20 for details).
-# Make sure you catch any output from any external program you may call
-# from your module. Any output from an external program cannot be caught and
-# silenced by py3status and will break your i3bar so please, redirect any
-# stdout/stderr to /dev/null for example (see issue #20 for details).
-#
-# CONTRIBUTORS:
-#
-# Contributors are kindly requested to agree to contribute their code under
-# the BSD license to match py3status' one.
-#
-# Any contributor to this module should add his/her name to the @author
-# line, comma separated.
-#
-# DOCSTRING:
-#
-# Fill in the following docstring: it will be parsed by py3status to document
-# your module from the CLI.
 """
-One-line summary followed by an empty line.
+Module to display your AG DSN traffic
 
-Multi-line description followed by an empty line.
+Show how much of your AG DSN traffic you used today in your
+statusbar
 
 Configuration parameters:
-    - cache_timeout : how often we refresh this module in seconds
+    - cache_timeout : refresh intervall in seconds
 
-@author <your full name> <your email address>
+@author Matthes Lipke matthes.lipke@gmail.com
 @license BSD
 """
 
