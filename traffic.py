@@ -20,7 +20,7 @@ import requests
 class Py3status:
     # available configuration parameters
     cache_timeout = 120
-    traffic_url = "https://atlantis.wh2.tu-dresden.de/traffic/getMyTraffic.php"
+    traffic_url = "http://atlantis.wh2.tu-dresden.de/traffic/getMyTraffic.php"
 
     def __init__(self):
         pass
@@ -36,8 +36,8 @@ class Py3status:
 
         try:
             t.get()
-        except Exception as e:
-            t = "0.000 MiB"
+        except:
+            t = "not connected"
 
         output = {
                 "cached_until": time.time() + self.cache_timeout,
@@ -48,14 +48,14 @@ class Py3status:
 class Traffic:
     def __init__(self, url):
         self.TRAFFIC_URL = url
-    
+
     def get(self):
         response = requests.get(self.TRAFFIC_URL).json()
 
         if response.get("version") == 2:
             upload = response.get("traffic").get("out")
             download = response.get("traffic").get("in")
-            
+
             self.traffic = upload + download
         elif response.get("version") == 0:
             raise ResponseError("Not connected to an AG DSN network")
