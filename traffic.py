@@ -20,6 +20,7 @@ import requests
 class Py3status:
     # available configuration parameters
     cache_timeout = 120
+    nc_cache_timeout = 600 # longer timeout when not connected
     traffic_url = "http://atlantis.wh2.tu-dresden.de/traffic/getMyTraffic.php"
 
     def __init__(self):
@@ -34,15 +35,17 @@ class Py3status:
     def traffic(self, i3s_output_list, i3s_config):
         t = Traffic(self.traffic_url)
 
+        output = {}
+        output["cached_until"] = time.time() + self.cache_timeout
+
         try:
             t.get()
         except:
+            output["cached_until"] = time.time() + self.nc_cache_timeout 
             t = "not connected"
 
-        output = {
-                "cached_until": time.time() + self.cache_timeout,
-                "full_text": str(t)
-                }
+        output["full_text"] = str(t)
+
         return output
 
 class Traffic:
